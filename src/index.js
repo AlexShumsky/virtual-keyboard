@@ -168,7 +168,10 @@ class Application {
       el.classList.add('key');
       el.classList.add(key);
       el.setAttribute('data-key', key);
-      
+      if (obj.isCaps && el.textContent === 'Caps Lock')
+        el.classList.add('active');
+      if (large.includes(el.textContent)) el.classList.add('large');
+    
         keyboardContainer.append(keyboardRow);
       });
     }
