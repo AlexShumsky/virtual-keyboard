@@ -22,7 +22,27 @@ class Application {
 </div>`;
   }
 
-  
+  setLanguage() {
+    const currentLanguage = window.localStorage.getItem('language');
+    if (currentLanguage) {
+      this.language = currentLanguage;
+    } else {
+      window.localStorage.setItem('language', 'en');
+    }
+  }
+
+  createElement(element) {
+    this.template.innerHTML = element;
+    const cusomElement = this.template.content.firstElementChild;
+    return cusomElement;
+  }
+
+        keyboardContainer.append(keyboardRow);
+      });
+    }
+    createKeyboard(this);
+    showActiveButtons();
+    keyboardListener(this);
   }
 
   run() {
