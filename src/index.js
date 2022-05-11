@@ -156,7 +156,19 @@ class Application {
         ev.preventDefault();
         if (ev.target.classList.contains('key')) {
           if (!ev.target.classList.contains('disable')) {
-  
+            infoArea.innerHTML += ev.target.textContent;
+          } else {
+            const disabledKey = ev.target.textContent;
+            checkDisabled(disabledKey);
+          }
+        }
+      });
+    }
+    function setKeyAttributes(el, key, obj = false) {
+      el.classList.add('key');
+      el.classList.add(key);
+      el.setAttribute('data-key', key);
+      
         keyboardContainer.append(keyboardRow);
       });
     }
