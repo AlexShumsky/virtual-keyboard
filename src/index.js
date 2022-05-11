@@ -114,9 +114,9 @@ class Application {
         ev.preventDefault();
         let key;
         if (
-          !ev.code.endsWith('Right') ||
-          ev.code === 'BracketRight' ||
-          ev.code === 'ArrowRight'
+          !ev.code.endsWith('Right')
+          || ev.code === 'BracketRight'
+          || ev.code === 'ArrowRight'
         ) {
           key = document.querySelector(`.key${ev.keyCode}`);
         } else {
@@ -137,9 +137,9 @@ class Application {
         ev.preventDefault();
         let key;
         if (
-          !ev.code.endsWith('Right') ||
-          ev.code === 'BracketRight' ||
-          ev.code === 'ArrowRight'
+          !ev.code.endsWith('Right')
+          || ev.code === 'BracketRight'
+          || ev.code === 'ArrowRight'
         ) {
           key = document.querySelector(`.key${ev.keyCode}`);
         } else {
@@ -168,8 +168,7 @@ class Application {
       el.classList.add('key');
       el.classList.add(key);
       el.setAttribute('data-key', key);
-      if (obj.isCaps && el.textContent === 'Caps Lock')
-        el.classList.add('active');
+      if (obj.isCaps && el.textContent === 'Caps Lock') el.classList.add('active');
       if (large.includes(el.textContent)) el.classList.add('large');
       if (el.textContent === 'Space') el.classList.add('superLarge');
     }
