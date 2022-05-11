@@ -182,6 +182,21 @@ class Application {
         key.textContent = String.fromCharCode(el);
       }
 
+      return key;
+    }
+    function createKeyboard(obj) {
+      keyboardContainer.innerHTML = '';
+      keyboardObj[obj.language][obj.register].forEach((row) => {
+        const keyboardRow = document.createElement('div');
+        keyboardRow.classList.add('row');
+
+        for (let key in row) {
+          const keyboardEl = renderKeys(row[key]);
+
+          setKeyAttributes(keyboardEl, key, obj);
+          keyboardRow.append(keyboardEl);
+        }
+
         keyboardContainer.append(keyboardRow);
       });
     }
