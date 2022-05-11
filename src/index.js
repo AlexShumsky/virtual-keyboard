@@ -7,9 +7,7 @@ class Application {
     this.container = document.querySelector('body');
     this.template = document.createElement('template');
     this.language = 'en';
-    this.register = 'small';
     this.shiftRegister = 'shSmall';
-    this.isCaps = false;
     this.structure = `
 <div class="wrapper">
     <div class="application">
@@ -44,7 +42,7 @@ class Application {
   renderKeyboard() {
     const keyboardContainer = document.querySelector('.application__keyboard');
     const infoArea = document.querySelector('.application__field');
-
+    let register = 'small';
     function checkDisabled(key) {
       switch (key) {
         case 'Del':
@@ -145,12 +143,11 @@ class Application {
       });
     }
     function changeRegister(obj) {
-      obj.register = obj.register.endsWith('mall') ? 'big' : 'small';
-      obj.isCaps = true;
+      register = register.endsWith('mall') ? 'big' : 'small';
       createKeyboard(obj);
     }
     function changeShiftRegister(obj) {
-      obj.register = obj.register.endsWith('mall') ? 'shBig' : 'shSmall';
+      register = register.endsWith('mall') ? 'shBig' : 'shSmall';
 
       createKeyboard(obj);
     }
