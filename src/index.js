@@ -123,6 +123,24 @@ class Application {
           key = document.querySelector(`.key${ev.keyCode}db`);
         }
 
+        buttonPress(key);
+        console.log(key);
+        if (ev.altKey && ev.ctrlKey) changeLanguage(obj);
+        if (ev.key === 'CapsLock') {
+          changeRegister(obj);
+        }
+        if (ev.key === 'Shift') {
+          changeShiftRegister(obj);
+        }
+      });
+      window.addEventListener('keyup', function (ev) {
+        ev.preventDefault();
+        let key;
+        if (
+          !ev.code.endsWith('Right') ||
+          ev.code === 'BracketRight' ||
+          ev.code === 'ArrowRight'
+        ) {
         keyboardContainer.append(keyboardRow);
       });
     }
