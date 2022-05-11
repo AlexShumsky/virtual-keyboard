@@ -109,6 +109,19 @@ class Application {
         infoArea.innerHTML += button.textContent;
       }
     }
+    function keyboardListener(obj) {
+      window.addEventListener('keydown', function (ev) {
+        ev.preventDefault();
+        let key;
+        if (
+          !ev.code.endsWith('Right') ||
+          ev.code === 'BracketRight' ||
+          ev.code === 'ArrowRight'
+        ) {
+          key = document.querySelector(`.key${ev.keyCode}`);
+        } else {
+          key = document.querySelector(`.key${ev.keyCode}db`);
+        }
 
         keyboardContainer.append(keyboardRow);
       });
