@@ -141,6 +141,22 @@ class Application {
           ev.code === 'BracketRight' ||
           ev.code === 'ArrowRight'
         ) {
+          key = document.querySelector(`.key${ev.keyCode}`);
+        } else {
+          key = document.querySelector(`.key${ev.keyCode}db`);
+        }
+        if (ev.key === 'Shift') {
+          changeRegister(obj);
+        }
+        buttonCancel(key);
+      });
+    }
+    function showActiveButtons() {
+      keyboardContainer.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        if (ev.target.classList.contains('key')) {
+          if (!ev.target.classList.contains('disable')) {
+  
         keyboardContainer.append(keyboardRow);
       });
     }
