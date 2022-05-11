@@ -7,3 +7,6 @@ $keyboard-key: rgb(41, 37, 37);
 $keyboard-hoverkey: rgb(63, 68, 85);
 $keyboard-white: #fff;
 /*******************MAIN*/
+html {
+  user-select: none;
+}
