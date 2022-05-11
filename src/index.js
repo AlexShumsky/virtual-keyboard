@@ -37,6 +37,79 @@ class Application {
     return cusomElement;
   }
 
+  renderBaseHtmlStructure() {
+    this.container.append(this.createElement(this.structure));
+  }
+
+  renderKeyboard() {
+    const keyboardContainer = document.querySelector('.application__keyboard');
+    const infoArea = document.querySelector('.application__field');
+
+    function changeRegister(obj) {
+      obj.register = obj.register.endsWith('mall') ? 'big' : 'small';
+      obj.isCaps = true;
+      createKeyboard(obj);
+    }
+    function changeShiftRegister(obj) {
+      obj.register = obj.register.endsWith('mall') ? 'shBig' : 'shSmall';
+
+      createKeyboard(obj);
+    }
+    function changeLanguage(obj) {
+      function changeMessage(context) {
+        const messageContainer = document.querySelector('.application__info');
+        messageContainer.innerHTML = applicationMessage[context.language];
+      }
+      if (obj.language === 'en') {
+        window.localStorage.setItem('language', 'ru');
+      } else {
+        window.localStorage.setItem('language', 'en');
+      }
+      obj.setLanguage();
+      createKeyboard(obj);
+      changeMessage(obj);
+    }
+
+    function checkDisabled(key) {
+      switch (key) {
+        case 'Del':
+        case 'Backspace':
+          infoArea.innerHTML = infoArea.innerHTML.slice(0, -1);
+          break;
+        case 'Enter':
+          infoArea.innerHTML += '\n';
+          break;
+        case 'Space':
+          infoArea.innerHTML += ' ';
+          break;
+        case 'Tab':
+          infoArea.innerHTML += '    ';
+          break;
+      }
+    }
+    function buttonPress(button) {
+      if (button) {
+        button.classList.add('active');
+      } else {
+        return '';
+      }
+      if (!button.classList.contains('disable')) {
+        infoArea.innerHTML += button.textContent;
+      } else {
+        checkDisabled(button.textContent);
+      }
+    }
+    function buttonCancel(button) {
+      if (button) {
+        button.classList.remove('active');
+      } else {
+        return '';
+      }
+      if (!button.classList.contains('disable')) {
+        infoArea.innerHTML += button.textContent;
+      }
+    }
+
         keyboardContainer.append(keyboardRow);
       });
     }
