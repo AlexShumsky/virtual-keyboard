@@ -177,7 +177,11 @@ class Application {
       const key = document.createElement('div');
       if (typeof el === 'string') {
         key.textContent = el;
-      
+        key.classList.add('disable');
+      } else {
+        key.textContent = String.fromCharCode(el);
+      }
+
         keyboardContainer.append(keyboardRow);
       });
     }
