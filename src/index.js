@@ -45,6 +45,105 @@ class Application {
     const keyboardContainer = document.querySelector('.application__keyboard');
     const infoArea = document.querySelector('.application__field');
 
+    function checkDisabled(key) {
+      switch (key) {
+        case 'Del':
+        case 'Backspace':
+          infoArea.innerHTML = infoArea.innerHTML.slice(0, -1);
+          break;
+        case 'Enter':
+          infoArea.innerHTML += '\n';
+          break;
+        case 'Space':
+          infoArea.innerHTML += ' ';
+          break;
+        case 'Tab':
+          infoArea.innerHTML += '    ';
+          break;
+        default:
+          return null;
+      }
+      return null;
+    }
+    function buttonPress(button) {
+      if (button) {
+        button.classList.add('active');
+      } else {
+        return '';
+      }
+      if (!button.classList.contains('disable')) {
+        infoArea.innerHTML += button.textContent;
+      } else {
+        checkDisabled(button.textContent);
+      }
+      return null;
+    }
+    function buttonCancel(button) {
+      if (button) {
+        button.classList.remove('active');
+      } else {
+        return '';
+      }
+      if (!button.classList.contains('disable')) {
+        infoArea.innerHTML += button.textContent;
+      }
+      return null;
+    }
+
+    function showActiveButtons() {
+      keyboardContainer.addEventListener('click', function disableKey(ev) {
+        ev.preventDefault();
+        if (ev.target.classList.contains('key')) {
+          if (!ev.target.classList.contains('disable')) {
+            infoArea.innerHTML += ev.target.textContent;
+          } else {
+            const disabledKey = ev.target.textContent;
+            checkDisabled(disabledKey);
+          }
+        }
+      });
+    }
+    function setKeyAttributes(el, key, obj = false) {
+      el.classList.add('key');
+      el.classList.add(key);
+      el.setAttribute('data-key', key);
+      if (obj.isCaps && el.textContent === 'Caps Lock') {
+        el.classList.add('active');
+      }
+
+      if (large.includes(el.textContent)) {
+        el.classList.add('large');
+      }
+      if (el.textContent === 'Space') {
+        el.classList.add('superLarge');
+      }
+    }
+    function renderKeys(el) {
+      const key = document.createElement('div');
+      if (typeof el === 'string') {
+        key.textContent = el;
+        key.classList.add('disable');
+      } else {
+        key.textContent = String.fromCharCode(el);
+      }
+
+      return key;
+    }
+    function createKeyboard(obj) {
+      keyboardContainer.innerHTML = '';
+      keyboardObj[obj.language][obj.register].forEach((row) => {
+        const keyboardRow = document.createElement('div');
+        keyboardRow.classList.add('row');
+        Object.entries(row).forEach(([key, value]) => {
+          const keyboardEl = renderKeys(value);
+
+          setKeyAttributes(keyboardEl, key, obj);
+          keyboardRow.append(keyboardEl);
+        });
+
+        keyboardContainer.append(keyboardRow);
+      });
+    }
     function changeRegister(obj) {
       obj.register = obj.register.endsWith('mall') ? 'big' : 'small';
       obj.isCaps = true;
@@ -69,62 +168,17 @@ class Application {
       createKeyboard(obj);
       changeMessage(obj);
     }
-
-    function checkDisabled(key) {
-      switch (key) {
-        case 'Del':
-        case 'Backspace':
-          infoArea.innerHTML = infoArea.innerHTML.slice(0, -1);
-          break;
-        case 'Enter':
-          infoArea.innerHTML += '\n';
-          break;
-        case 'Space':
-          infoArea.innerHTML += ' ';
-          break;
-        case 'Tab':
-          infoArea.innerHTML += '    ';
-          break;
-      }
-    }
-    function buttonPress(button) {
-      if (button) {
-        button.classList.add('active');
-      } else {
-        return '';
-      }
-      if (!button.classList.contains('disable')) {
-        infoArea.innerHTML += button.textContent;
-      } else {
-        checkDisabled(button.textContent);
-      }
-    }
-    function buttonCancel(button) {
-      if (button) {
-        button.classList.remove('active');
-      } else {
-        return '';
-      }
-      if (!button.classList.contains('disable')) {
-        infoArea.innerHTML += button.textContent;
-      }
-    }
     function keyboardListener(obj) {
-      window.addEventListener('keydown', function (ev) {
+      window.addEventListener('keydown', function keyDown(ev) {
         ev.preventDefault();
         let key;
-        if (
-          !ev.code.endsWith('Right')
-          || ev.code === 'BracketRight'
-          || ev.code === 'ArrowRight'
-        ) {
+        if (!ev.code.endsWith('Right') || ev.code === 'BracketRight' || ev.code === 'ArrowRight') {
           key = document.querySelector(`.key${ev.keyCode}`);
         } else {
           key = document.querySelector(`.key${ev.keyCode}db`);
         }
 
         buttonPress(key);
-        console.log(key);
         if (ev.altKey && ev.ctrlKey) changeLanguage(obj);
         if (ev.key === 'CapsLock') {
           changeRegister(obj);
@@ -133,14 +187,10 @@ class Application {
           changeShiftRegister(obj);
         }
       });
-      window.addEventListener('keyup', function (ev) {
+      window.addEventListener('keyup', function keyUp(ev) {
         ev.preventDefault();
         let key;
-        if (
-          !ev.code.endsWith('Right')
-          || ev.code === 'BracketRight'
-          || ev.code === 'ArrowRight'
-        ) {
+        if (!ev.code.endsWith('Right') || ev.code === 'BracketRight' || ev.code === 'ArrowRight') {
           key = document.querySelector(`.key${ev.keyCode}`);
         } else {
           key = document.querySelector(`.key${ev.keyCode}db`);
@@ -149,54 +199,6 @@ class Application {
           changeRegister(obj);
         }
         buttonCancel(key);
-      });
-    }
-    function showActiveButtons() {
-      keyboardContainer.addEventListener('click', function (ev) {
-        ev.preventDefault();
-        if (ev.target.classList.contains('key')) {
-          if (!ev.target.classList.contains('disable')) {
-            infoArea.innerHTML += ev.target.textContent;
-          } else {
-            const disabledKey = ev.target.textContent;
-            checkDisabled(disabledKey);
-          }
-        }
-      });
-    }
-    function setKeyAttributes(el, key, obj = false) {
-      el.classList.add('key');
-      el.classList.add(key);
-      el.setAttribute('data-key', key);
-      if (obj.isCaps && el.textContent === 'Caps Lock') el.classList.add('active');
-      if (large.includes(el.textContent)) el.classList.add('large');
-      if (el.textContent === 'Space') el.classList.add('superLarge');
-    }
-    function renderKeys(el) {
-      const key = document.createElement('div');
-      if (typeof el === 'string') {
-        key.textContent = el;
-        key.classList.add('disable');
-      } else {
-        key.textContent = String.fromCharCode(el);
-      }
-
-      return key;
-    }
-    function createKeyboard(obj) {
-      keyboardContainer.innerHTML = '';
-      keyboardObj[obj.language][obj.register].forEach((row) => {
-        const keyboardRow = document.createElement('div');
-        keyboardRow.classList.add('row');
-
-        for (let key in row) {
-          const keyboardEl = renderKeys(row[key]);
-
-          setKeyAttributes(keyboardEl, key, obj);
-          keyboardRow.append(keyboardEl);
-        }
-
-        keyboardContainer.append(keyboardRow);
       });
     }
     createKeyboard(this);
