@@ -171,7 +171,13 @@ class Application {
       if (obj.isCaps && el.textContent === 'Caps Lock')
         el.classList.add('active');
       if (large.includes(el.textContent)) el.classList.add('large');
-    
+      if (el.textContent === 'Space') el.classList.add('superLarge');
+    }
+    function renderKeys(el) {
+      const key = document.createElement('div');
+      if (typeof el === 'string') {
+        key.textContent = el;
+      
         keyboardContainer.append(keyboardRow);
       });
     }
