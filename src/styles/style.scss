@@ -44,6 +44,7 @@ body {
     padding: 10px;
     resize: none;
     border-radius: 10px;
+
     border: 1px solid $keyboard-grey;
     box-shadow: rgba(0, 0, 0, 0.315) 0px 5px 15px;
 
@@ -87,7 +88,7 @@ body {
   user-select: none;
   cursor: pointer;
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.6) 0px 2px 2.5px, rgba(0, 0, 0, 0.8) 0px 2px 2.5px;
+  animation: shadowsOn 0.4s;
 
   &:hover {
     background: $keyboard-hoverkey;
@@ -95,7 +96,23 @@ body {
   &:active {
     transition: all 0.2s;
     transform: scale(0.95);
-    box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 8px, rgba(0, 0, 0, 0.8) 2px 4px 8px;
+    animation: shadowsOff 0.4s;
+  }
+  @keyframes shadowsOn {
+    from {
+      box-shadow: rgba(0, 0, 0, 0.6) 0px 2px 2.5px, rgba(0, 0, 0, 0.8) 0px 2px 2.5px;
+    }
+    to {
+      box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 8px, rgba(0, 0, 0, 0.8) 2px 4px 8px;
+    }
+  }
+  @keyframes shadowsOff {
+    from {
+      box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 8px, rgba(0, 0, 0, 0.8) 2px 4px 8px;
+    }
+    to {
+      box-shadow: rgba(0, 0, 0, 0.6) 0px 2px 2.5px, rgba(0, 0, 0, 0.8) 0px 2px 2.5px;
+    }
   }
 }
 .large {
